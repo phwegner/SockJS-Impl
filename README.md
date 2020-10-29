@@ -1,6 +1,7 @@
 # Prerequisite
 
 You need to have nodejs >=12 installed and added to your PATH. 
+Moreover you need to install all packages from package.json.
 Than you can run the application. 
 
 ```
