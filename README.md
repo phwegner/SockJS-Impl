@@ -1,3 +1,13 @@
+# Prerequisite
+
+You need to have nodejs >=12 installed and added to your PATH. 
+Than you can run the application. 
+
+```
+node app.js
+
+```
+
 # Asynchronous connection to backend
 
 The easyiest way to use this module is to use the ajax form submit functionallity implemented in __index.html__.
