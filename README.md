@@ -1,4 +1,4 @@
-# Asynchronous feedback
+# Asynchronous connection to backend
 
 The easyiest way to use this module is to use the ajax form submit functionallity implemented in __index.html__.
 You only need to customize you form-inputs and the POST URL.
