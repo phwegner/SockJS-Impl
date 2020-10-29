@@ -1,86 +1,106 @@
 <!doctype html>
 <html>
-  <head>
 
-  <meta charset="UTF-8">
+<head>
 
-    <title>Socket.IO chat</title>
+    <meta charset="UTF-8">
+
+    <title>SocketJS-Impl</title>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; padding: 20vw; }
-     
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-
-
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font: 13px Helvetica, Arial;
+            padding: 20vw;
+        }
+        
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #messages li {
+            padding: 5px 10px;
+        }
+        
+        #messages li:nth-child(odd) {
+            background: #eee;
+        }
     </style>
-  </head>
-  <body>
-    
+</head>
+
+<body>
+
     <h1>Asynchronous processing of large files with live feedback!</h1>
     <p>This is an implementation of SOCKET.IO with the idea to give the user live feedback of large files getting processed asynchronally in the backend. </p>
-    <p>For documentation see: <a href="https://gitlab.scai.fraunhofer.de" target="_blank">Docu</a></p>
+    <p>For documentation see: <a href="https://github.com/phwegner/SockJS-Impl" target="_blank">Docu</a></p>
     <br>
     <br>
-    
+
     <form id="form">
-      <input type="file" name="file" />
-      <br>
-      <label for="file">Upload a File</label>
+        <input type="file" name="file" />
+        <br>
+        <label for="file">This is an example form</label>
     </form>
     <br>
     <button id="btn"> Submit </button>
-    
+
     <br>
     <br>
-    <h5>Example Message:</h5>
+    <h5>Example Messages from the backend (async):</h5>
     <ul id="messages"></ul>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script>
-    var id;
-      function run() {
+        var id;
 
-        var url = "#";
-        
-        var socket = io("ws://localhost:3001");
+        function run() {
+
+            var url = "#";
+
+            var socket = io("ws://localhost:3001");
 
 
-        
-        socket.on('connection', () => {id = socket.id});
-        console.log("Identifier:" + id);
 
-        socket.on('message', function(msg){
-          document.getElementById('messages').insertAdjacentHTML("afterbegin", "<li>" + msg + "</li>")
-        });
+            socket.on('connection', () => {
+                id = socket.id
+            });
+            console.log("Identifier:" + id);
 
-        $('#btn').on('click', () => {
-          var fileForm = $('#form');
-          var data = {};
-          data['inputs']= fileForm.serialize();
-          try{
-            data['socketId'] = id;
-          }
-          catch{
-            alert("Socket not ready");
-          }
+            socket.on('message', function(msg) {
+                document.getElementById('messages').insertAdjacentHTML("afterbegin", "<li>" + msg + "</li>")
+            });
 
-          $.ajax({
-           type: "POST",
-           url: url,
-           data: fileForm.serialize(), 
-           success: function(data)
-           {
-               alert(data); 
-               // further processing
-           }
-         });
-        })
-      }
+            $('#btn').on('click', () => {
+                var fileForm = $('#form');
+                var data = {};
+                data['inputs'] = fileForm.serialize();
+                try {
+                    data['socketId'] = id;
+                } catch {
+                    alert("Socket not ready");
+                }
 
-      run();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: fileForm.serialize(),
+                    success: function(data) {
+                        alert(data);
+                        // further processing
+                    }
+                });
+            })
+        }
+
+        run();
     </script>
-  </body>
+</body>
+
 </html>
