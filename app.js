@@ -59,7 +59,7 @@ app.post('/makemessage-all', async(req, res, next) => {
 io.on('connection', function(socket) {
     var id = socket.id;
     console.log("ID: " + id);
-    io.to(id).emit("message", "Initialized with id " + id);
+    io.to(id).emit("message", "SOCKET_ID:"+ id);
 })
 
 http.listen(3001, () => {
