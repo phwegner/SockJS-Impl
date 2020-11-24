@@ -12,22 +12,22 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font: 13px Helvetica, Arial;
             padding: 20vw;
         }
-        
+
         #messages {
             list-style-type: none;
             margin: 0;
             padding: 0;
         }
-        
+
         #messages li {
             padding: 5px 10px;
         }
-        
+
         #messages li:nth-child(odd) {
             background: #eee;
         }
@@ -44,6 +44,7 @@
 
     <form id="form">
         <input type="file" name="file" />
+        <input type="hidden" name="socketId" id="socket_id_input" />
         <br>
         <label for="file">This is an example form</label>
     </form>
@@ -64,7 +65,7 @@
 
             var url = "#";
 
-            var socket = io("ws://localhost:3001");
+            var socket = io("ws://localhost:3003");
 
 
 
@@ -74,18 +75,20 @@
             console.log("Identifier:" + id);
 
             socket.on('message', function(msg) {
+              if (msg.includes("SOCKET_ID")) {
+          document.getElementById("socket_id_input").value = msg.split(":")[1];
+          //this.sock_id = msg.split(":")[1];
+          return;
+        }
                 document.getElementById('messages').insertAdjacentHTML("afterbegin", "<li>" + msg + "</li>")
             });
+
 
             $('#btn').on('click', () => {
                 var fileForm = $('#form');
                 var data = {};
                 data['inputs'] = fileForm.serialize();
-                try {
-                    data['socketId'] = id;
-                } catch {
-                    alert("Socket not ready");
-                }
+
 
                 $.ajax({
                     type: "POST",
